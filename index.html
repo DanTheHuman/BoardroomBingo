@@ -123,13 +123,16 @@
   <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-functions.js"></script>
   <script>
     // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyDlDUJhsP0_uh-YpaRfTOhWZsyY_hLukTw",
-      authDomain: "net-ninja-sandbox.firebaseapp.com",
-      databaseURL: "https://net-ninja-sandbox.firebaseio.com",
-      projectId: "net-ninja-sandbox"
-    };
-    firebase.initializeApp(config);
+    var firebaseConfig = {
+    apiKey: "AIzaSyBq9aNmy5_J_B3qf9xglUBTHqICtWfkC3g",
+    authDomain: "boardroombingo-ddf37.firebaseapp.com",
+    databaseURL: "https://boardroombingo-ddf37.firebaseio.com",
+    projectId: "boardroombingo-ddf37",
+    storageBucket: "boardroombingo-ddf37.appspot.com",
+    messagingSenderId: "581070068722",
+    appId: "1:581070068722:web:1b0aca75885ce54829a96b",
+    measurementId: "G-0DJ2BEND0J"
+  };
     
     // make auth and firestore references
     const auth = firebase.auth();
