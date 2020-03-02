@@ -3,18 +3,16 @@ const guideList = document.querySelector('.guides');
 const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
 const accountDetails = document.querySelector('.account-details');
-const adminItems = document.querySelectorAll('.admin');
+//const adminItems = document.querySelectorAll('.admin');
 
 const setupUI = (user) => {
   if (user) {
-    if (user.admin) {
-      adminItems.forEach(item => item.style.display = 'block');
-    }
+    console.log(user);
     // account info
     db.collection('users').doc(user.uid).get().then(doc => {
       const html = `
         <div>Logged in as ${user.email}</div>
-        <div>${doc.data().bio}</div>
+        <div>Player Name: ${doc.data().name}</div>
         <div class="pink-text">${user.admin ? 'Admin' : ''}</div>
       `;
       accountDetails.innerHTML = html;
@@ -26,7 +24,6 @@ const setupUI = (user) => {
     // clear account info
     accountDetails.innerHTML = '';
     // toggle user elements
-    adminItems.forEach(item => item.style.display = 'none');
     loggedInLinks.forEach(item => item.style.display = 'none');
     loggedOutLinks.forEach(item => item.style.display = 'block');
   }
@@ -64,4 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
   var items = document.querySelectorAll('.collapsible');
   M.Collapsible.init(items);
 
+});
+
+
+db.collection('games').get().then((snapshot)=> {
+  snapshot.docs.forEach(doc => {
+    console.log(doc.data())
+  });
 });

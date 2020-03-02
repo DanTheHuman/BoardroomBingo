@@ -1,4 +1,5 @@
 // add admin cloud function
+/*
 const adminForm = document.querySelector('.admin-actions');
 adminForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -9,6 +10,7 @@ adminForm.addEventListener('submit', (e) => {
     console.log(result);
   });
 });
+*/
 
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
@@ -31,8 +33,8 @@ const createForm = document.querySelector('#create-form');
 createForm.addEventListener('submit', (e) => {
   e.preventDefault();
   db.collection('guides').add({
-    title: createForm.title.value,
-    content: createForm.content.value
+    title: createForm['title'].value,
+    content: createForm['content'].value
   }).then(() => {
     // close the create modal & reset form
     const modal = document.querySelector('#modal-create');
