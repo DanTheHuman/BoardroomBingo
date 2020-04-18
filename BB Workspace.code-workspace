@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\ChatCord"
+		},
+		{
+			"path": "..\\other\\CSS Grid"
+		},
+		{
+			"path": "..\\other\\FirebaseAuthTest"
+		},
+		{
+			"path": "..\\other\\MPgameHTML5"
+		},
+		{
+			"path": "..\\Original_BB"
+		},
+		{
+			"path": "..\\HiWorld"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "CSS Grid"
+	}
+}

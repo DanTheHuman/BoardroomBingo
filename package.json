@@ -1,0 +1,28 @@
+{
+  "name": "boardroombingo",
+  "version": "1.0.0",
+  "description": "boardroom bingo",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanTheHuman/BoardroomBingo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DanTheHuman/BoardroomBingo/issues"
+  },
+  "homepage": "https://github.com/DanTheHuman/BoardroomBingo#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    
+  }
+}
