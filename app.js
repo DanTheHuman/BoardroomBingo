@@ -12,16 +12,15 @@ serv.listen(2000);
 console.log("Server Started.");
 //***********************************/
 
-
+//var gameState = {};
 var SOCKET_LIST = [];
 var PLAYER_LIST = [];
 //var WORD_LIST = ["Scale","Top of mind","There There", "Sensitive", "Disrupt","X as a Service", "Revolutionize", "Learning", "Above-board","Actionable","Action Item","Anonymize","At the end of the day","Availability", "Backdoor","Baked-in","Ballpark","Bandwidth","Bang for the buck","Baseline","Best in Breed","Best Practices", "Bifurcate","Binary","Bio break","Brass tacks","Brick and Mortar","Brown-bag","Bubble it up","Bucketize","Build","End to end","Buy-in","C-level","Cadence","Cannibalize","Cascade","Chime in","Circle back","Cooperition","Core competencies","Critical Mass","Deck","deep dive","Dog and pony show","Drop dead date","Ducks in a row","Out of pocket","offline","awesome","synergy","cross-functional","low hanging fruit","paradigm","reach out","Roadmap","sport analogy","combat analogy","Uber of x","Frame this as...","Target segment","Position as...","Double Click","game changing","leverage","open the kimono","run up the flagpole","blue sky","skin in the game","drink the kool-aid","eat the dogfood","value add","execute","here here"];
-
+var bingoPos = [[0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14], [15,16,17,18,19], [20,21,22,23,24], [0,5,10,15,20], [1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24],[0,6,12,18,24],[4,8,12,16,20]];
 //Read Wordlist1.JSON
 let rawdata = fs.readFileSync('./wordlist1.json');
 var WORD_LIST = JSON.parse(rawdata);
 
-console.log(SOCKET_LIST.length);
 //Player constructor
 var Player = function(id) {
 	var self = {
@@ -30,7 +29,9 @@ var Player = function(id) {
 		//number: PLAYER_LIST.length+1,
 		score:0,
 		words:[],
-		winner:false,
+		checkedWords:[],
+		checkedPos:[],
+		isWinner:false,
 		name:"",
 	}
 	return self;
@@ -52,7 +53,10 @@ io.sockets.on('connection', function(socket){
 	
 	for (i = 0; i < 25; i++){
 		//random number between 0-75
-		var randnum = Math.floor(Math.random()*WORD_LIST.words.length);
+		//only put unique words in the wordlist
+		do {
+			var randnum = Math.floor(Math.random()*WORD_LIST.words.length);
+		} while(player.words.includes(WORD_LIST.words[randnum]));
 		player.words[i] = WORD_LIST.words[randnum];
 	}
 	socket.emit('wordList',{
@@ -69,8 +73,39 @@ io.sockets.on('connection', function(socket){
 	
 	//Server listening to scoreUp a user
 	socket.on('scoreUp',function(data){
-		player.score = player.score + data.amount;
-		console.log('scoreUp for ' + player.number + ': ' + player.score); 
+		//check to see if they scratched the word, put it in the checked words to compare, and put it in checkedPos to check Bingo. scratch the word
+		console.log(data.text);
+		if(player.words.includes(data.text) && !player.checkedWords.includes(data.text)) {
+			player.checkedWords.push(data.text);
+			player.checkedPos.push(player.words.indexOf(data.text));
+			player.score = player.score + 1;
+			console.log('scoreUp for ' + player.number + ': ' + player.score); 
+		} else {
+			console.log("no word matched or already scratched");
+		}
+		//console.log(player.checkedWords);
+		//console.log(player.checkedPos);
+		//check to see if they have Bingo. 
+		
+		//console.log(player.isWinner);
+		//console.log(player.checkedPos);
+		let checker = (arr, target) => target.every(v => arr.includes(v));
+		for(i=0;i<bingoPos.length;i++) {
+		
+			//console.log(checker(player.checkedPos,bingoPos[i]));
+			if (checker(player.checkedPos,bingoPos[i]) == true) {
+				PLAYER_LIST[socket.id].isWinner = true;
+				
+				/*
+				socket.emit('playerBingo', {
+					msg: `Player ${player.number} got Bingo!`,
+				});
+				*/
+			}
+		}
+		
+		
+		
 	});
 	
 	
@@ -91,9 +126,11 @@ setInterval(function(){
 		var player = PLAYER_LIST[i];
 		pack.push({
 			number:player.number,
-			score:player.score
+			score:player.score,
+			isWinner:player.isWinner ? '  **BINGO**' : '',
 		});
 	}
+	
 	//player.emit('updateScoreList',pack);
 	for(var i in SOCKET_LIST){
 		var socket = SOCKET_LIST[i];
