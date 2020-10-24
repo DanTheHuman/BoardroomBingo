@@ -8,26 +8,26 @@ app.get('/',function(req, res) {
 });
 app.use('/public',express.static(__dirname + '/public'));
 
-//serv.listen(2000);
+serv.listen(2000);
 
 //for Heroku we change to process.env.PORT
-serv.listen(process.env.PORT || 2000);
+//serv.listen(process.env.PORT || 2000);
 console.log("Server Started.");
 //***********************************/
 
 //var gameState = {};
 var SOCKET_LIST = [];
 var PLAYER_LIST = [];
-var WORD_LIST = ["Scale","Top of mind","There There", "Sensitive", "Disrupt","X as a Service", "Revolutionize", "Learning", "Above-board","Actionable","Action Item","Anonymize","At the end of the day","Availability", "Backdoor","Baked-in","Ballpark","Bandwidth","Bang for the buck","Baseline","Best in Breed","Best Practices", "Bifurcate","Binary","Bio break","Brass tacks","Brick and Mortar","Brown-bag","Bubble it up","Bucketize","Build","End to end","Buy-in","C-level","Cadence","Cannibalize","Cascade","Chime in","Circle back","Cooperition","Core competencies","Critical Mass","Deck","deep dive","Dog and pony show","Drop dead date","Ducks in a row","Out of pocket","offline","awesome","synergy","cross-functional","low hanging fruit","paradigm","reach out","Roadmap","sport analogy","combat analogy","Uber of x","Frame this as...","Target segment","Position as...","Double Click","game changing","leverage","open the kimono","run up the flagpole","blue sky","skin in the game","drink the kool-aid","eat the dogfood","value add","execute","here here"];
+//var WORD_LIST = ["Scale","Top of mind","There There", "Sensitive", "Disrupt","X as a Service", "Revolutionize", "Learning", "Above-board","Actionable","Action Item","Anonymize","At the end of the day","Availability", "Backdoor","Baked-in","Ballpark","Bandwidth","Bang for the buck","Baseline","Best in Breed","Best Practices", "Bifurcate","Binary","Bio break","Brass tacks","Brick and Mortar","Brown-bag","Bubble it up","Bucketize","Build","End to end","Buy-in","C-level","Cadence","Cannibalize","Cascade","Chime in","Circle back","Cooperition","Core competencies","Critical Mass","Deck","deep dive","Dog and pony show","Drop dead date","Ducks in a row","Out of pocket","offline","awesome","synergy","cross-functional","low hanging fruit","paradigm","reach out","Roadmap","sport analogy","combat analogy","Uber of x","Frame this as...","Target segment","Position as...","Double Click","game changing","leverage","open the kimono","run up the flagpole","blue sky","skin in the game","drink the kool-aid","eat the dogfood","value add","execute","here here"];
 var bingoPos = [[0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14], [15,16,17,18,19], [20,21,22,23,24], [0,5,10,15,20], [1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24],[0,6,12,18,24],[4,8,12,16,20]];
 //Read Wordlist1.JSON
-//let rawdata = fs.readFileSync('./wordlist1.json');
-//var WORD_LIST = JSON.parse(rawdata);
+let rawdata = fs.readFileSync('./wordlist1.json');
+var WORD_LIST = JSON.parse(rawdata);
 
 //Player constructor
 var Player = function(id) {
 	var self = {
-		id:id,
+		id:id, 
 		number:"" + Math.floor(10 *Math.random()),
 		//number: PLAYER_LIST.length+1,
 		score:0,
