@@ -9,13 +9,17 @@
 
 <body>
   <div class="wrapper">
-    <div class="box box1">
+    <!--
+      <div class="box box1">
+      
       <h1>Boardroom Bingo</h1>
       <button>Join Game</button>
       <button>Start Game</button>
       <button>Admin</button>
-
+       
     </div>
+    -->
+
     <div class="box box2">
       <div class="box2_title"> 
         <h3>Scoreboard</h3>
@@ -61,7 +65,9 @@
 
 
     </div>
-    <div class="box box4">Chat</div>
+    <!--
+      <div class="box box4">Chat</div>
+    -->
   </div>
 </body>
 
@@ -70,13 +76,23 @@
   
     var socket = io();
    
+    var playerName = prompt("What is your name?");
+    socket.emit('updatePlayerName',{
+      //the inputted player name to the server. 
+      text:playerName,
+    })
     
+
+
     //client listening for "welcomeMsg" so that it can do stuff
+    /*
     socket.on('welcomeMsg',function(data){
       console.log(data.msg);
       alert(data.msg);
     });
-  
+    */
+    
+
     socket.on('wordList',function(data){
       console.log(data.words);
       var csv = [];
@@ -94,7 +110,7 @@
       
       var players = '';
       for(i=0;i<data.length;i++){
-        players += `<tr>Player #${data[i].number} : ${data[i].score}  ${data[i].isWinner}</tr><br>`;
+        players += `<tr>${data[i].name} : ${data[i].score}  ${data[i].isWinner}</tr><br>`;
       }
       document.getElementById("playerList").innerHTML = players;
     });

@@ -36,7 +36,7 @@ var Player = function(id) {
 		checkedWords:[],
 		checkedPos:[],
 		isWinner:false,
-		name:"",
+		name:"default",
 	}
 	return self;
 }
@@ -114,11 +114,20 @@ io.sockets.on('connection', function(socket){
 	
 	
 	//Server sending out "serverMsg" to client with some data
+	/*
 	socket.emit('welcomeMsg',{
 		msg:'You are player: ' + player.number,
 		//test:player.words,
 	});
-	
+	*/
+
+	//capture player name
+	socket.on('updatePlayerName', function(data){
+		console.log(data.text);
+		player.name = data.text;
+	})
+
+
 });
 
 
@@ -132,6 +141,7 @@ setInterval(function(){
 			number:player.number,
 			score:player.score,
 			isWinner:player.isWinner ? '  **BINGO**' : '',
+			name:player.name,
 		});
 	}
 	
