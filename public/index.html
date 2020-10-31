@@ -9,16 +9,27 @@
 
 <body>
   <div class="wrapper">
-    <!--
+    
       <div class="box box1">
       
-      <h1>Boardroom Bingo</h1>
-      <button>Join Game</button>
-      <button>Start Game</button>
-      <button>Admin</button>
+      
+      <!--
+        <h1>Boardroom Bingo</h1>
+        <button>Join Game</button>
+        <button>Start Game</button>
+        <button>Admin</button><input type="submit" value="Submit">
+      -->
+      <br>
+      <form onSubmit="this.reset(); return false;">
+        <label for="name"> Name: </label>
+        <input type="text" id="inputname" name="name" value="">
+        <input type="submit" value="Update" onClick="updateName();">
+        
+      </form>
+      
        
     </div>
-    -->
+    
 
     <div class="box box2">
       <div class="box2_title"> 
@@ -72,15 +83,21 @@
 </body>
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
 <script>
   
     var socket = io();
    
-    var playerName = prompt("What is your name?");
-    socket.emit('updatePlayerName',{
-      //the inputted player name to the server. 
-      text:playerName,
-    })
+
+    function updateName(){
+      var playerName = $('#inputname').val();
+      //console.log(playerName);
+      socket.emit('updatePlayerName',{
+        //the inputted player name to the server. 
+        text:playerName,
+      });
+    }
+    
     
 
 
