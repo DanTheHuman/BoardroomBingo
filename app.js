@@ -8,10 +8,11 @@ app.get('/',function(req, res) {
 });
 app.use('/public',express.static(__dirname + '/public'));
 
-serv.listen(2000);
+//***********HEROKU */
+//serv.listen(2000);
 
 //for Heroku we change to process.env.PORT
-//serv.listen(process.env.PORT || 2000);
+serv.listen(process.env.PORT || 2000);
 console.log("Server Started.");
 //***********************************/
 
