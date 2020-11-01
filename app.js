@@ -36,7 +36,7 @@ var Player = function(id) {
 		checkedWords:[],
 		checkedPos:[],
 		isWinner:false,
-		name:"default",
+		name:"Unknown Voter",
 	}
 	return self;
 }
